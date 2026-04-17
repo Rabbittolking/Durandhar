@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dhurandhar Game App</title>
+    <style>
+        :root {
+            --primary-blue: #1a237e; /* Darker blue */
+            --secondary-yellow: #ffca28; /* Amber */
+            --accent-pink: #e91e63; /* Pink */
+            --background-dark: #121212;
+            --text-light: #ffffff;
+            --text-dark: #000000;
+            --card-background: #1e1e1e;
+            --separator-line: #444; /* For game item separators */
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background-color: var(--background-dark);
+            color: var(--text-light);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .app-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(90deg, var(--primary-blue) 0%, var(--secondary-yellow) 50%, var(--accent-pink) 100%);
+            color: var(--text-light);
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .menu-icon {
+            font-size: 28px;
+            cursor: pointer;
+            margin-right: 15px;
+        }
+
+        .app-icon {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        .app-name {
+            font-size: 24px;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-right .profile-icon {
+            font-size: 28px;
+            cursor: pointer;
+            margin-left: 15px; /* Space between profile and admin link */
+        }
+
+        .admin-link {
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--text-light);
+            text-decoration: none;
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 8px 12px;
+            border-radius: 20px;
+            transition: background-color 0.3s ease;
+        }
+        .admin-link:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+
+        /* Content Area */
+        .content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .ad-banner {
+            width: 100%;
+            max-width: 600px; /* Max width for ads */
+            height: 100px;
+            background-color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: #aaa;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .search-container {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            background-color: var(--card-background);
+            border-radius: 30px;
+            padding: 10px 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .search-container .search-icon {
+            font-size: 24px;
+            margin-right: 10px;
+            color: var(--secondary-yellow);
+        }
+
+        .search-container input[type="text"] {
+            flex-grow: 1;
+            border: none;
+            background: none;
+            color: var(--text-light);
+            font-size: 16px;
+            outline: none;
+            padding: 5px 0;
+        }
+
+        .search-container input[type="text"]::placeholder {
+            color: #aaa;
+        }
+
+        .search-container .search-button {
+            background: var(--secondary-yellow);
+            color: var(--text-dark);
+            border: none;
+            border-radius: 20px;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .search-container .search-button:hover {
+            background-color: #f5a200;
+        }
+
+        .game-list {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            gap: 0; /* Using separator lines instead of gaps */
+        }
+
+        .game-item {
+            background-color: var(--card-background);
+            border-radius: 10px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            cursor: default; /* Default cursor for the item itself */
+        }
+        .game-item + .game-item { /* Style for items after the first one */
+            border-top: 1px solid var(--separator-line);
+            padding-top: 15px; /* Ensure padding matches original item padding */
+        }
+
+        .game-item:first-child {
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .game-item:last-child {
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+
+        .game-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .game-icon-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            margin-right: 15px;
+            object-fit: cover;
+        }
+
+        .game-details {
+            flex-grow: 1;
+        }
+
+        .game-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .game-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .game-buttons button {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .play-button {
+            background-color: var(--accent-pink);
+            color: var(--text-light);
+        }
+
+        .play-button:hover {
+            background-color: #d81b60;
+            transform: translateY(-2px);
+        }
+
+        .remove-button {
+            background-color: var(--secondary-yellow);
+            color: var(--text-dark);
+        }
+
+        .remove-button:hover {
+            background-color: #f5a200;
+            transform: translateY(-2px);
+        }
+
+        /* Profile Page Specific Styles */
+        .profile-content {
+            width: 100%;
+            max-width: 600px;
+            background-color: var(--card-background);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .profile-content h2 {
+            margin-top: 0;
+            color: var(--secondary-yellow);
+        }
+
+        .profile-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--text-light);
+        }
+
+        .profile-form input[type="text"],
+        .profile-form input[type="file"],
+        .profile-form button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #444;
+            border-radius: 5px;
+            background-color: var(--background-dark);
+            color: var(--text-light);
+            font-size: 16px;
+        }
+
+        .profile-form input[type="file"] {
+            background-color: var(--card-background);
+            cursor: pointer;
+        }
+
+        .profile-form input[type="file"]::file-selector-button {
+            margin-right: 20px;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: var(--accent-pink);
+            color: var(--text-light);
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .profile-form input[type="file"]::file-selector-button:hover {
+            background-color: #d81b60;
+        }
+
+        .profile-form button {
+            background-color: var(--secondary-yellow);
+            color: var(--text-dark);
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .profile-form button:hover {
+            background-color: #f5a200;
+        }
+
+        .profile-image-preview {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+            border: 3px solid var(--secondary-yellow);
+            box-shadow: 0 0 15px rgba(255, 193, 7, 0.5);
+        }
+
+        .dark-mode-toggle {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .dark-mode-toggle span {
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--accent-pink);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        /* Hidden by default, shown when active */
+        .hidden {
+            display: none !important;
+        }
+
+        /* Dark Mode Styles */
+         body.dark-mode {
+            --primary-blue: #2a379e;
+            --secondary-yellow: #ffdd66;
+            --accent-pink: #f91e93;
+            --background-dark: #0f0f0f;
+            --text-light: #f0f0f0;
+            --card-background: #282828;
+            --separator-line: #555;
+        }
+        body.dark-mode .ad-banner {
+            background-color: #444;
+            color: #bbb;
+        }
+        body.dark-mode .search-container {
+            background-color: #333;
+        }
+        body.dark-mode .game-item {
+            background-color: #333;
+        }
+        body.dark-mode .profile-content {
+            background-color: #333;
+        }
+        body.dark-mode .profile-form input[type="text"],
+        body.dark-mode .profile-form input[type="file"],
+        body.dark-mode .profile-form button {
+            background-color: #333;
+            border-color: #555;
+        }
+        body.dark-mode .profile-form input[type="file"]::file-selector-button {
+            background-color: var(--accent-pink);
+        }
+        body.dark-mode .profile-form input[type="file"]::file-selector-button:hover {
+            background-color: #d81b60;
+        }
+        body.dark-mode .footer-item:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+    </style>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="header">
+            <div class="header-left">
+                <i class="fas fa-bars menu-icon" onclick="alert('Menu clicked!')"></i>
+                <img src="https://i.ibb.co/0yrVKNQY/20260417-153442.png" alt="App Icon" class="app-icon">
+                <span class="app-name">Dhurandhar</span>
+            </div>
+            <div class="header-right">
+                <!-- Admin Link -->
+                <a href="admin.html" class="admin-link" target="_blank">Admin Panel</a>
+                <i class="fas fa-user-circle profile-icon" onclick="showProfilePage()"></i>
+            </div>
+        </header>
+
+        <main class="content" id="main-content">
+            <!-- Home Page -->
+            <div id="home-page">
+                <div class="ad-banner">ADVERTISEMENT</div>
+
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="game-search-input" placeholder="Search Game...">
+                    <button class="search-button" onclick="searchGames()">Search</button>
+                </div>
+
+                <div class="game-list" id="game-list">
+                    <!-- Games will be loaded here -->
+                </div>
+
+                <div class="ad-banner">ADVERTISEMENT</div>
+            </div>
+
+            <!-- Profile Page (initially hidden) -->
+            <div id="profile-page" class="hidden">
+                <div class="ad-banner">ADVERTISEMENT</div>
+                <div class="profile-content">
+                    <h2>User Profile</h2>
+                    <img id="profile-image-preview" src="https://via.placeholder.com/150" alt="Profile Preview" class="profile-image-preview">
+                    <div class="profile-form">
+                        <label for="userName">Name:</label>
+                        <input type="text" id="userName" name="userName" placeholder="Enter your name">
+
+                        <label for="userImage">Upload Image:</label>
+                        <input type="file" id="userImage" name="userImage" accept="image/*">
+
+                        <div class="dark-mode-toggle">
+                            <span>Dark Mode:</span>
+                            <label class="switch">
+                                <input type="checkbox" id="darkModeToggle">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <button onclick="saveProfile()">Save Profile</button>
+                        <button onclick="showHomePage()" style="background-color: #777;">Back to Home</button>
+                    </div>
+                </div>
+                <div class="ad-banner">ADVERTISEMENT</div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <div class="footer-item" onclick="showHomePage()">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </div>
+            <div class="footer-item" onclick="showProfilePage()">
+                <i class="fas fa-user"></i>
+                <span>Profile</span>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAn0dI8lFbIxkwNdCfxw0yxxU0NrFN8AQE", // Replace with your actual API key
+            authDomain: "dhurandhar-ec0a0.firebaseapp.com",
+            databaseURL: "https://dhurandhar-ec0a0-default-rtdb.firebaseio.com", // Replace with your actual database URL
+            projectId: "dhurandhar-ec0a0",
+            storageBucket: "dhurandhar-ec0a0.firebasestorage.app",
+            messagingSenderId: "675272696469",
+            appId: "1:675272696469:web:30146c4982546224c0b19c",
+            measurementId: "G-2DDHCCB4LG"
+        };
+
+        // Initialize Firebase
+        try {
+            firebase.initializeApp(firebaseConfig);
+        } catch (e) {
+            console.error("Firebase initialization error", e);
+            alert("Firebase failed to initialize. Please check console for details.");
+        }
+
+        const database = firebase.database();
+        const gamesRef = database.ref('games'); // Reference to the 'games' node in Firebase
+        const profileRef = database.ref('profile'); // Reference for user profile data
+
+        // --- DOM Elements ---
+        const gameListElement = document.getElementById('game-list');
+        const gameSearchInput = document.getElementById('game-search-input');
+        const homePage = document.getElementById('home-page');
+        const profilePage = document.getElementById('profile-page');
+        const userNameInput = document.getElementById('userName');
+        const userImageInput = document.getElementById('userImage');
+        const profileImagePreview = document.getElementById('profile-image-preview');
+        const darkModeToggle = document.getElementById('darkModeToggle');
+
+        // --- Initialization ---
+        document.addEventListener('DOMContentLoaded', () => {
+            loadGames();
+            loadProfile();
+            applyDarkModePreference();
+        });
+
+        // --- Page Navigation ---
+        function showHomePage() {
+            homePage.classList.remove('hidden');
+            profilePage.classList.add('hidden');
+        }
+
+        function showProfilePage() {
+            profilePage.classList.remove('hidden');
+            homePage.classList.add('hidden');
+        }
+
+        // --- Game Functions ---
+        function loadGames(gamesToDisplay = []) { // Defaults to empty if no games found initially
+            gameListElement.innerHTML = ''; // Clear existing list
+
+            if (gamesToDisplay.length === 0) {
+                gameListElement.innerHTML = '<p style="text-align: center; color: #aaa;">No games available. Please check back later or contact support.</p>';
+                return;
+            }
+
+            gamesToDisplay.forEach(game => {
+                const gameItem = document.createElement('div');
+                gameItem.classList.add('game-item');
+                gameItem.innerHTML = `
+                    <img src="${game.iconUrl || 'https://via.placeholder.com/60'}" alt="${game.name} Icon" class="game-icon-img">
+                    <div class="game-details">
+                        <div class="game-title">${game.name}</div>
+                        <div class="game-online-count">Online: ${game.onlineCount || 0}</div>
+                    </div>
+                    <div class="game-buttons">
+                        <button class="play-button" onclick="startGame('${game.gameUrl}', '${game.name}')">PLAY</button>
+                        <button class="remove-button" onclick="markGameForRemoval('${game.id}', '${game.name}')">REMOVE</button>
+                    </div>
+                `;
+                gameListElement.appendChild(gameItem);
+            });
+        }
+
+        // Load games from Firebase
+        function fetchGamesFromFirebase() {
+             gamesRef.on('value', (snapshot) => {
+                const games = snapshot.val();
+                const gameArray = games ? Object.keys(games).map(key => ({ id: key, ...games[key] })) : [];
+                loadGames(gameArray); // Load games into the UI
+            }, (error) => {
+                console.error("Error fetching games from Firebase:", error);
+                alert("Failed to load games. Please check console.");
+                loadGames([]); // Load empty state if error
+            });
+        }
+
+        // Initial call to fetch games when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchGamesFromFirebase(); // Fetch games from Firebase
+            loadProfile();
+            applyDarkModePreference();
+        });
+
+        function searchGames() {
+            const searchTerm = gameSearchInput.value.toLowerCase().trim();
+            if (!searchTerm) {
+                // If search is empty, we should ideally re-fetch from Firebase
+                // or have a way to access the full list loaded from Firebase.
+                // For simplicity, we'll re-fetch. In a more complex app, you'd store the full list.
+                fetchGamesFromFirebase();
+                return;
+            }
+
+            // To search effectively, we need the full list.
+            // This is a simple client-side filter after fetching.
+            // A more robust solution would be server-side search in Firebase or a search service.
+            gamesRef.once('value', (snapshot) => { // Use once to get current data without live listener
+                const games = snapshot.val();
+                const gameArray = games ? Object.keys(games).map(key => ({ id: key, ...games[key] })) : [];
+                const filteredGames = gameArray.filter(game =>
+                    game.name.toLowerCase().includes(searchTerm)
+                );
+                loadGames(filteredGames);
+            });
+        }
+
+        function startGame(gameUrl, gameName) {
+            if (gameUrl) {
+                window.open(gameUrl, '_blank'); // Open game in a new tab
+                alert(`Redirecting to ${gameName}...`);
+            } else {
+                alert(`Game "${gameName}" is not playable or has no URL.`);
+            }
+        }
+
+        function markGameForRemoval(gameId, gameName) {
+            // In a real app, this might involve moving to a "removed games" list,
+            // or marking it as inactive in the database.
+            // For this example, we'll just simulate it and then prompt to delete from admin.
+            alert(`Game "${gameName}" has been marked for removal. You can delete it from the Admin Panel.`);
+            // You could optionally trigger a visual change here if you had user-specific game lists.
+        }
+
+        // --- Profile Functions ---
+        function loadProfile() {
+            profileRef.on('value', (snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    userNameInput.value = data.name || '';
+                    if (data.imageUrl) {
+                        profileImagePreview.src = data.imageUrl;
+                    } else {
+                        profileImagePreview.src = "https://via.placeholder.com/150"; // Default
+                    }
+                }
+            }, (error) => {
+                console.error("Error loading profile:", error);
+                alert("Failed to load profile data.");
+            });
+        }
+
+        function saveProfile() {
+            const name = userNameInput.value.trim();
+            const imageFile = userImageInput.files[0];
+            let imageUrl = profileImagePreview.src; // Keep existing image URL if no new file is selected
+
+            if (imageFile) {
+                // --- Image Upload to Firebase Storage (Commented out for single file simplicity) ---
+                // You would typically use firebase.storage() here.
+                // const storageRef = firebase.storage().ref('profile_images/' + imageFile.name);
+                // storageRef.put(imageFile).then(snapshot => {
+                //     snapshot.ref.getDownloadURL().then(downloadURL => {
+                //         imageUrl = downloadURL;
+                //         const profileData = { name: name, imageUrl: imageUrl };
+                //         profileRef.set(profileData).then(() => {
+                //             alert('Profile saved successfully!');
+                //         }).catch((error) => {
+                //             console.error("Error saving profile:", error);
+                //             alert('Failed to save profile.');
+                //         });
+                //     });
+                // }).catch((error) => {
+                //     console.error("Error uploading image:", error);
+                //     alert('Failed to upload image.');
+                // });
+
+                // For this example, we'll just read the file and display it locally.
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    imageUrl = e.target.result; // Local URL for preview
+                    profileImagePreview.src = imageUrl;
+                    const profileData = { name: name, imageUrl: imageUrl };
+                    profileRef.set(profileData).then(() => {
+                        alert('Profile saved successfully!');
+                    }).catch((error) => {
+                        console.error("Error saving profile:", error);
+                        alert('Failed to save profile.');
+                    });
+                };
+                reader.readAsDataURL(imageFile);
+
+            } else {
+                // No new image, just save name and current imageUrl
+                const profileData = { name: name, imageUrl: imageUrl };
+                profileRef.set(profileData).then(() => {
+                    alert('Profile saved successfully!');
+                }).catch((error) => {
+                    console.error("Error saving profile:", error);
+                    alert('Failed to save profile.');
+                });
+            }
+        }
+
+        // --- Dark Mode ---
+        function toggleDarkMode() {
+            const isDarkMode = document.body.classList.toggle('dark-mode');
+            localStorage.setItem('darkMode', isDarkMode);
+            applyDarkModePreference();
+        }
+
+        function applyDarkModePreference() {
+            const prefersDark = localStorage.getItem('darkMode') === 'true';
+            if (prefersDark) {
+                document.body.classList.add('dark-mode');
+                darkModeToggle.checked = true;
+            } else {
+                document.body.classList.remove('dark-mode');
+                darkModeToggle.checked = false;
+            }
+        }
+
+        darkModeToggle.addEventListener('change', toggleDarkMode);
+
+        // --- Initial Theme based on OS preference (optional) ---
+        if (!localStorage.getItem('darkMode')) {
+            const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
+            if (prefersDarkScheme.matches) {
+                document.body.classList.add('dark-mode');
+                darkModeToggle.checked = true;
+                localStorage.setItem('darkMode', 'true');
+            }
+        }
+
+        // --- Handle image file input change ---
+        userImageInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    profileImagePreview.src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+    </script>
+</body>
+</html>
