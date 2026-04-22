@@ -114,19 +114,6 @@
             padding-bottom: 20px;
         }
 
-        /* === AD BANNER STYLING === */
-        /* It is very important NOT to use flexbox on the script tags themselves */
-        .ad-banner-wrapper {
-            width: 320px;
-            height: 50px;
-            margin: 15px auto; /* Centers the ad horizontally */
-            background-color: var(--card-bg); /* Placeholder color */
-            border-radius: 5px;
-            display: block; /* Must be block for script injection */
-            text-align: center;
-            overflow: hidden;
-        }
-
         /* Search Box */
         .search-box {
             display: flex;
@@ -371,21 +358,6 @@
             <!-- ====== HOME PAGE ====== -->
             <div id="home-page">
                 
-                <!-- Top Ad Banner -->
-                <div class="ad-banner-wrapper">
-                    <!-- AD NETWORK SCRIPT EXACTLY AS PROVIDED -->
-                    <script type="text/javascript">
-                        atOptions = {
-                            'key' : 'e407210c4443b158e26c412f7fdc5f1c',
-                            'format' : 'iframe',
-                            'height' : 50,
-                            'width' : 320,
-                            'params' : {}
-                        };
-                    </script>
-                    <script type="text/javascript" src="https://www.highperformanceformat.com/e407210c4443b158e26c412f7fdc5f1c/invoke.js"></script>
-                </div>
-
                 <!-- Search -->
                 <div class="search-box">
                     <i class="fas fa-search"></i>
@@ -398,41 +370,10 @@
                     <!-- Games load dynamically here via JS -->
                     <p style="text-align: center; padding: 20px; color: var(--text-muted);">Loading Games...</p>
                 </div>
-
-                <!-- Bottom Ad Banner -->
-                <div class="ad-banner-wrapper" style="margin-top: 20px;">
-                    <!-- AD NETWORK SCRIPT EXACTLY AS PROVIDED -->
-                    <script type="text/javascript">
-                        atOptions = {
-                            'key' : 'e407210c4443b158e26c412f7fdc5f1c',
-                            'format' : 'iframe',
-                            'height' : 50,
-                            'width' : 320,
-                            'params' : {}
-                        };
-                    </script>
-                    <script type="text/javascript" src="https://www.highperformanceformat.com/e407210c4443b158e26c412f7fdc5f1c/invoke.js"></script>
-                </div>
             </div>
 
             <!-- ====== PROFILE PAGE ====== -->
             <div id="profile-page" class="hidden">
-                
-                <!-- Profile Top Ad Banner -->
-                <div class="ad-banner-wrapper">
-                    <!-- AD NETWORK SCRIPT EXACTLY AS PROVIDED -->
-                    <script type="text/javascript">
-                        atOptions = {
-                            'key' : 'e407210c4443b158e26c412f7fdc5f1c',
-                            'format' : 'iframe',
-                            'height' : 50,
-                            'width' : 320,
-                            'params' : {}
-                        };
-                    </script>
-                    <script type="text/javascript" src="https://www.highperformanceformat.com/e407210c4443b158e26c412f7fdc5f1c/invoke.js"></script>
-                </div>
-
                 <div class="profile-card">
                     <h2>User Profile</h2>
                     <img id="profilePreview" src="https://via.placeholder.com/150" class="profile-img">
@@ -456,21 +397,6 @@
                             <span class="slider"></span>
                         </label>
                     </div>
-                </div>
-
-                <!-- Profile Bottom Ad Banner -->
-                <div class="ad-banner-wrapper">
-                    <!-- AD NETWORK SCRIPT EXACTLY AS PROVIDED -->
-                    <script type="text/javascript">
-                        atOptions = {
-                            'key' : 'e407210c4443b158e26c412f7fdc5f1c',
-                            'format' : 'iframe',
-                            'height' : 50,
-                            'width' : 320,
-                            'params' : {}
-                        };
-                    </script>
-                    <script type="text/javascript" src="https://www.highperformanceformat.com/e407210c4443b158e26c412f7fdc5f1c/invoke.js"></script>
                 </div>
             </div>
 
